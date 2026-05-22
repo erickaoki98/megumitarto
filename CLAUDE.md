@@ -4,11 +4,10 @@ CRM/painel de gestão de vendas para um negócio de leitura de tarô. Vendedores
 cadastram clientes e perguntas, sobem fotos das cartas, e a IA gera o texto da
 leitura (persona "Megumi") e o áudio que é enviado ao cliente.
 
-> **IMPORTANTE — o código-fonte está dentro de um `.zip` na raiz do repositório**
-> (`horizons-export-*.zip`), ainda **não extraído** para o repo. Para fazer
-> alterações de fato (e deployar), os arquivos precisam ser extraídos para a
-> raiz. Confirmar com o usuário antes de extrair, pois é uma mudança estrutural.
 > O projeto é um export do **Hostinger Horizons** e o usuário faz deploy na **Vercel**.
+> O código-fonte foi extraído para a raiz do repositório (o `.zip` original
+> `horizons-export-*.zip` permanece como backup). `node_modules/` e `dist/` são
+> ignorados via `.gitignore`. Instalar deps com `npm install --legacy-peer-deps`.
 
 ## Stack
 
@@ -55,6 +54,10 @@ Scripts: `npm run dev` (porta 3000), `npm run build`, `npm run lint`.
   - `seller_id` (fk → profiles.id), `status`, `created_at` (usado também como "data da venda", editável)
 - **`lead_source_options`**: `id`, `name`, `is_active`, `created_at`. Gerenciada em
   `/admin-settings` via `LeadSourceManager` + hook `useLeadSources`.
+- **`operator_schedules`**: escala semanal recorrente. `id`, `operator_id` (fk →
+  profiles), `day_of_week` (0-6, conv. JS, 0=Domingo), `start_time`, `end_time`,
+  `created_at`, `updated_at`. Unique `(operator_id, day_of_week)` (1 turno por dia,
+  usado em upsert). SQL em `supabase/operator_schedules.sql`. Usada em `/escala`.
 
 ### Status da venda (workflow)
 `draft` → `pending_reading` → `reading_completed` → `pending_sending` → `completed`
@@ -69,7 +72,7 @@ rotas; `adminOnly` restringe a admins.
 - `/login` — pública (`LoginPage`)
 - `/sales`, `/sales/new`, `/sales/:id` — admin + seller
 - `/transcribe` (`TranscribeAudioPage`), `/summarize` (`SummarizePage`) — admin + seller
-- `/reports`, `/sellers` (`SellerManagementPage`), `/admin-settings` — **admin only**
+- `/reports`, `/sellers` (`SellerManagementPage`), `/escala` (`SchedulePage`), `/admin-settings` — **admin only**
 - Layout: `src/components/layouts/DashboardLayout.jsx` (sidebar; menu filtrado por role)
 
 ## Páginas-chave

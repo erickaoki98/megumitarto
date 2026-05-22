@@ -1,0 +1,9 @@
+## Pages
+- [- Painel de Vendas Megumi Tarot](/login): No description available
+- [Configurações - Painel de Vendas Megumi Tarot](/adminsettings): No description available
+- [Escala - Painel de Vendas Megumi Tarot](/schedule): No description available
+- [Membros - Gestão de Tarot](/sellermanagement): No description available
+- [Nova Venda - Painel de Vendas Megumi Tarot](/newsale): No description available
+- [Relatórios - Painel de Vendas Megumi Tarot](/reports): No description available
+- [Venda  - Painel de Vendas](/saledetail): No description available
+- [Vendas - Gestão de Tarot](/sales): No description available
